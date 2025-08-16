@@ -3,8 +3,6 @@
 # SPDX-License-Identifier: (Apache-2.0 AND CC-BY-4.0)
 # Code is Apache-2.0 and docs are CC-BY-4.0
 
-version: "2.2"
-
 services:
   # Build: docker-compose build -d bigchaindb
   # Run: docker-compose run -d bdb
@@ -23,6 +21,7 @@ services:
     depends_on:
       - mongodb
       - tendermint
+      - shacleng
     build:
       context: .
       dockerfile: Dockerfile-dev
@@ -75,6 +74,15 @@ services:
     command: >
       sh -c "[ -f /tendermint/config/config.toml ] || tendermint init &&
             tendermint node --consensus.create_empty_blocks=false --proxy_app=tcp://bigchaindb:26658"
+    restart: always
+  shacleng:
+    build:
+      context: ./bigchaindb/backend/localshacl
+      dockerfile: Dockerfile
+    volumes:
+      - ./bigchaindb/backend/localshacl:/app
+    ports:
+      - "3000:3000"
     restart: always
   bdb:
     image: busybox
