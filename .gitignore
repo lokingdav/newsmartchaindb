@@ -103,4 +103,4 @@ docs/contributing/source/cross-project-policies/*.md
 
 .env
 docker/data/
-
+node_modules
