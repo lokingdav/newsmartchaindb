@@ -1,0 +1,20 @@
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix ex: <http://example.org/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+# Shape for ADV
+ex:AdvShape a sh:NodeShape ;
+    sh:targetClass ex:ADV ;
+
+    # Ensure that ex:ref points to a valid asset_id
+    sh:property [
+        sh:path ex:ref ;
+        sh:nodeKind sh:IRI ;
+        sh:class ex:asset_id ;
+    ] ;
+
+    # Ensure that the status is either "Open" or "Closed"
+    sh:property [
+        sh:path ex:status ;
+        sh:in ("Open" "Closed") ;
+    ] .

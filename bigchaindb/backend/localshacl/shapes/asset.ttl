@@ -1,0 +1,26 @@
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix ex: <http://example.org/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+# Shape for asset_id
+ex:AssetShape a sh:NodeShape ;
+    sh:targetClass ex:asset_id ;
+
+    # Constraint to ensure that each asset_id is referenced by at most one ADV with status "Open"
+    sh:property [
+        sh:path [ sh:inversePath ex:ref ] ;
+        sh:qualifiedValueShape [
+            sh:node ex:AdvShape ;
+            sh:property [
+                sh:path ex:status ;
+                sh:hasValue "Open" ;
+            ]
+        ] ;
+        sh:qualifiedMaxCount 1 ;
+    ] ;
+    
+    # Each asset can be spent at most once
+    sh:property [
+        sh:path [ sh:inversePath ex:spend ] ;
+        sh:maxCount 1 ;
+    ] .

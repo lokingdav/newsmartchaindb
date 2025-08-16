@@ -1,0 +1,30 @@
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix ex: <http://example.org/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+# Shape for BuyOffer transactions
+ex:BuyOfferShape a sh:NodeShape ;
+    sh:targetClass ex:BUYOFFER ;
+
+    # Reference to an ADV transaction via adv_ref
+    sh:property [
+        sh:path ex:adv_ref ;
+        sh:nodeKind sh:IRI ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:qualifiedValueShape [
+            sh:node ex:AdvShape ; 
+            sh:property [
+                sh:path ex:status ;
+                sh:hasValue "Open" ;
+            ]
+        ] ;
+        sh:qualifiedMinCount 1 ;
+    ] ;
+
+    # Reference to an asset_id
+    sh:property [
+        sh:path ex:asset_ref ;
+        sh:nodeKind sh:IRI ;
+        sh:class ex:asset_id ;
+    ] .
